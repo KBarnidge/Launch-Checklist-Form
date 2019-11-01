@@ -1,33 +1,22 @@
-// Write your JavaScript code here!
-
-//This block of code shows how to format the HTML once you fetch some planetary JSON!
-{/* <h2>Mission Destination</h2>
-<ol>
-   <li>Name: ${}</li>
-   <li>Diameter: ${}</li>
-   <li>Star: ${}</li>
-   <li>Distance from Earth: ${}</li>
-   <li>Number of Moons: ${}</li>
-</ol>
-<img src="${}"> */}
-
-fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response) {
-   response.json().then(function(json){
-      let destination = (json[3]);
-      const div = document.getElementById("missionTarget");
-         div.innerHTML = `
-            <ol>
-               <li>Name: ${destination.name}</li>
-               <li>Diameter: ${destination.diameter}</li>
-               <li>Star: ${destination.star}</li>
-               <li>Distance from Earth: ${destination.distance}</li>
-               <li>Number of Moons: ${destination.moons}</li>
-            </ol>
-            <img src='${destination.image}'>
-         `;
-     
-   });   
-});
+function randomizeDestination() {
+   fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response) {
+      response.json().then(function(json){
+         let destination = json[Math.floor(Math.random() *json.length)];
+         const div = document.getElementById("missionTarget");
+            div.innerHTML = `
+               <ol>
+                  <li>Name: ${destination.name}</li>
+                  <li>Diameter: ${destination.diameter}</li>
+                  <li>Star: ${destination.star}</li>
+                  <li>Distance from Earth: ${destination.distance}</li>
+                  <li>Number of Moons: ${destination.moons}</li>
+               </ol>
+               <img src='${destination.image}'>
+            `;
+      
+      });   
+   });
+}
 
 function updateLaunchStatus() {
    let fuelLevelInput = document.querySelector("input[name=fuelLevel]").value;
@@ -77,13 +66,14 @@ function validateEntry () {
                pilotStatus.innerHTML = (`Pilot ${pilotNameInput.value} ready`)
                copilotStatus.innerHTML = (`CoPilot ${copilotNameInput.value} ready`)
                updateLaunchStatus();
+               
         }
 }
 
 window.addEventListener("load", function() {
+   randomizeDestination();
 let button = document.getElementById("formSubmit");
 button.addEventListener("click", function (event) {
    validateEntry();
-
 });
 });
